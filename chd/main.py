@@ -1,4 +1,3 @@
-cat << 'EOF' > main.py
 import json
 import os
 from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove
@@ -84,15 +83,11 @@ def main():
     proxy = "socks5://user335792:9etya2@194.59.8.25:19208"
     req = HTTPXRequest(proxy_url=proxy)
     app = Application.builder().token(TOKEN).request(req).build()
-    
     conv = ConversationHandler(
-        entry_points=[
-            CommandHandler("start", start),
-            MessageHandler(filters.Text(["Отправить пост"]), ask_content),
-            MessageHandler(filters.Text(["Управление доступом"]), admin_menu)
-        ],
-    states={
-            WAITING_FOR_CONTENT: [MessageHandler(filters.PHOTO | filters.VIDEO | filters.TEXT, publish)],
+        entry_points=[CommandHandler("start", start), MessageHandler(filters.Text(["Отправить пост"]), ask_content), MessageHandler(filters.Text(["Управление доступом"]), admin_menu)],
+        states={
+            WAITING_FOR_CONTENT: [MessageHandler(filters.PHOTO | filters.VIDEO | filters.TEXT,
+publish)],
             WAITING_FOR_USER_ID: [MessageHandler(filters.TEXT, set_limit)],
             WAITING_FOR_LIMIT: [MessageHandler(filters.TEXT, save_admin)]
         },
@@ -103,4 +98,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-EOF
